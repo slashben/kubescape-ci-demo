@@ -1,7 +1,7 @@
 # Kubescape CI integration demo 
 In this repository I am giving an example of how Kubescape can be integrated into a CI process.
 
-Find the parent project (Kubescape ;-)) [here](https://github.com/armosec/kubescape)
+Find the parent project (Kubescape :wink: ) [here](https://github.com/armosec/kubescape)
 
 # What do you want from Kubescape in CI?
 Kubescape is a great tool to check your Kubernetes objects for security issues. It works both against live clusters and pre-deployment phases like YAML files or Helm charts.
