@@ -7,7 +7,7 @@ on:
     branches: [ main ]
    
 jobs:
-  nsa-security-check:
+  configuration-validation-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,5 +17,11 @@ jobs:
       - name: Install Kubescape
         run: curl -s https://raw.githubusercontent.com/armosec/kubescape/master/install.sh | /bin/bash
         
-      - name: Scan YAML files
-        run: kubescape scan --exceptions .github/assets/kubescape/exceptions.json -t 0 sources/
+      - name: Scan files
+        run: kubescape scan --exceptions .github/assets/kubescape/exceptions.json -t 0 -f junit -o results.xml sources/
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "results.xml"
