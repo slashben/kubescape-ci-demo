@@ -15,12 +15,22 @@ This repository contains a single [YAML file](sources/nginx-deployment.yaml) (in
 
 This repository also contains an "exception definition file" called [exceptions.json](.github/assets/kubescape/exceptions.json). It contains all the exceptions the developer wanted to apply to the validation process. See more about exceptions [here](https://github.com/armosec/kubescape/blob/master/examples/exceptions/README.md)
 
-At last, the repository defines a YAML scanning process which can be seen [here](.github/workflows/build.yaml), you can see the way Kubescape is invoked.
+At last, the repository defines a YAML scanning process which can be seen in [build.yaml](.github/workflows/build.yaml), you can see the way Kubescape is invoked.
 
 ## Workflow
 Kubescape finds potential security problems in you YAML files. You should go over the results and you can:
 1. Fix the issue - you can run Kubescape with `--verbose` flag and get assistance of how to solve a given problem
 2. Create an exception for the issue - this should happen if the problem is not solvable or not interesting (see the [exceptions.json](.github/assets/kubescape/exceptions.json))
+
+## CI process
+Explanation of what is happening in [build.yaml](.github/workflows/build.yaml):
+1. Checkout is done
+2. Kubescape is installed in the build environment
+3. Kubescape is ran on the contents of `sources` directory
+  * `-t 0` means that the risk threshold is set to minimum, if the risk is above `0` Kubescape returns a non-zero value and the GitHub action fails
+  * `--exceptions .github/assets/kubescape/exceptions.json` exceptions of the scan are take from the [exceptions.json](.github/assets/kubescape/exceptions.json)
+  * `-f junit` the output format of Kubescape to be set to JUnit - this is a format the "Publish Test Results" step understands
+  * `-o results.xml` the output will be stored in this file
 
 ## Things to note
 ### Exceptions on controls
@@ -28,7 +38,7 @@ For the sake of simplicity, this [exceptions.json](.github/assets/kubescape/exce
 Therefore it is strongly suggested to create exceptions on resource and controls together not to be lenient. 
 
 ### Threshold is set to the maximum
-In the demonstration, we are setting the risk acceptance threshold to it most string setting (0 risk is accepted). This means every issue either needs to be fixed or an explicit exception needs to be in place. This setting makes sure that Kubescape as a quality gate behaves completely predictable and every issue has to be addressed one way or another.
+In the demonstration, we are setting the risk acceptance threshold to it most strict setting (0 risk is accepted). This means every issue either needs to be fixed or an explicit exception needs to be in place. This setting makes sure that Kubescape as a quality gate behaves completely predictable and every issue has to be addressed one way or another.
 
 ### Single YAML
 This demo contains a single file, however this is just for the sake of simplicity of the example. Of course real life examples are more complicated.
