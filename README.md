@@ -17,6 +17,8 @@ This repository also contains an "exception definition file" called [exceptions.
 
 At last, the repository defines a YAML scanning process which can be seen in [build.yaml](.github/workflows/build.yaml), you can see the way Kubescape is invoked.
 
+You should check out the GitHub actions runs of this repository [here](https://github.com/slashben/kubescape-ci-demo/actions)
+
 ## Workflow
 Kubescape finds potential security problems in you YAML files. You should go over the results and you can:
 1. Fix the issue - you can run Kubescape with `--verbose` flag and get assistance of how to solve a given problem
